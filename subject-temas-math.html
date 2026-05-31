@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Temas Selectos de Matemáticas — Propedéutico COBAO 61</title>
+  <style>
+    :root { --primary: #BF0B2C; --dark: #8C031C; --light: #F2F2F2; --gray: #808081; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: #000; margin: 0; padding: 0; line-height: 1.6; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .header-img {
+      width: 110px; height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .header-text h1 { margin: 0 0 4px; font-size: 1.8rem; }
+    .header-text p  { margin: 0; opacity: 0.88; font-size: 0.95rem; }
+    .header-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    @media(max-width:600px){
+      .header-inner { flex-direction: column; text-align: center; }
+      .header-text h1 { font-size: 1.35rem; }
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: var(--dark);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.88rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,0.5); margin: 0 6px; }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 1.5rem auto 2rem; padding: 0 1rem; }
+
+    /* ── TARJETA ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    .card-title .ico {
+      background: var(--light);
+      color: var(--primary);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .desc-text { color: #222; text-align: justify; margin: 0; font-size: 0.97rem; }
+
+    /* ── BLOQUES TEMÁTICOS ── */
+    .bloques-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 0.5rem;
+    }
+    .bloque-box {
+      border-radius: 10px;
+      padding: 1.2rem 1.3rem;
+      background: var(--light);
+      border-top: 4px solid var(--primary);
+    }
+    .bloque-box:nth-child(2) { border-top-color: var(--dark); }
+    .bloque-box:nth-child(3) { border-top-color: #5a0015; }
+    .bloque-box h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bloque-box ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.87rem;
+      color: #333;
+    }
+    .bloque-box ul li { margin-bottom: 5px; }
+
+    /* ── TEMAS GRID ── */
+    .temas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 0.5rem;
+    }
+    .tema-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+    }
+    .tema-item:nth-child(even) { border-left-color: var(--dark); }
+    .tema-item h4 { margin: 0 0 4px; font-size: 0.92rem; color: var(--dark); }
+    .tema-item p  { margin: 0; font-size: 0.82rem; color: #444; }
+
+    /* ── OBJETIVOS ── */
+    .objetivos-list { list-style: none; margin: 0; padding: 0; }
+    .objetivos-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 0.93rem;
+    }
+    .objetivos-list li:last-child { border-bottom: none; }
+    .objetivos-list li::before {
+      content: "✓";
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── APLICACIONES ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+    .app-card { background: var(--light); border-radius: 10px; padding: 1rem; text-align: center; }
+    .app-card .app-icon { font-size: 2rem; }
+    .app-card h4 { margin: 6px 0 2px; font-size: 0.88rem; color: var(--dark); }
+    .app-card p  { margin: 0; font-size: 0.78rem; color: var(--gray); }
+
+    /* ── HABILIDADES ── */
+    .habilidades-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
+    .hab-tag {
+      background: var(--light);
+      border: 1px solid rgba(140,3,28,0.25);
+      color: var(--dark);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, var(--dark) 0%, #3a0010 100%);
+      color: #fff;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-size: 0.83rem;
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <img class="header-img" src="img6.jpeg" alt="Temas Selectos de Matemáticas">
+    <div class="header-text">
+      <h1>Temas Selectos de Matemáticas</h1>
+      <p>Propedéutico Físico-Matemático — COBAO Plantel 61</p>
+    </div>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb">
+  <a href="index 2.html">← Inicio</a>
+  <span>/</span>
+  <span style="color:rgba(255,255,255,0.75)">Temas Selectos de Matemáticas</span>
+</div>
+
+<div class="page">
+
+  <!-- DESCRIPCIÓN -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🔢</span>¿De qué trata esta materia?</h2>
+    <p class="desc-text">
+      <strong>Temas Selectos de Matemáticas</strong> integra los conceptos más importantes del área de
+      <em>Pensamiento Matemático</em> con un enfoque en la <em>modelación de fenómenos reales</em>
+      mediante funciones, el cálculo diferencial e integral. No se trata de memorizar fórmulas, sino de
+      desarrollar la capacidad de <strong>abstraer, representar y resolver situaciones</strong>
+      que involucran variación y cambio. Es la materia que consolida el fundamento analítico necesario
+      para todas las carreras del área físico-matemático.
+    </p>
+  </div>
+
+  <!-- BLOQUES TEMÁTICOS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🗂️</span>Bloques Temáticos</h2>
+    <div class="bloques-row">
+      <div class="bloque-box">
+        <h3>📐 Funciones y Variación</h3>
+        <ul>
+          <li>Concepto de función: dominio y rango</li>
+          <li>Variable dependiente e independiente</li>
+          <li>Operaciones y composición de funciones</li>
+          <li>Función lineal, cuadrática y polinomial</li>
+          <li>Función exponencial y logarítmica</li>
+          <li>Modelación de fenómenos reales</li>
+        </ul>
+      </div>
+      <div class="bloque-box">
+        <h3>📉 Bases del Cálculo</h3>
+        <ul>
+          <li>Variación promedio e instantánea</li>
+          <li>Procesos infinitos y aproximación</li>
+          <li>Límites: definición intuitiva y propiedades</li>
+          <li>Continuidad de una función</li>
+          <li>Derivada como razón de cambio</li>
+          <li>Reglas de derivación y aplicaciones</li>
+        </ul>
+      </div>
+      <div class="bloque-box">
+        <h3>∫ Integración</h3>
+        <ul>
+          <li>Concepto de antiderivada</li>
+          <li>Integral indefinida y sus propiedades</li>
+          <li>Sumas de Riemann</li>
+          <li>Integral definida y área bajo la curva</li>
+          <li>Teorema Fundamental del Cálculo</li>
+          <li>Aplicaciones al área y volumen</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCEPTOS CLAVE -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📚</span>Conceptos Clave</h2>
+    <div class="temas-grid">
+      <div class="tema-item">
+        <h4>Función Real</h4>
+        <p>Relación que asigna a cada elemento del dominio exactamente un valor en el rango. Base del análisis matemático.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Límite</h4>
+        <p>Valor al que se acerca una función cuando su variable independiente se aproxima a un punto. Fundamento del cálculo.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Derivada</h4>
+        <p>Razón de cambio instantánea de una función. Permite analizar pendientes, velocidades y tasas de variación.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Optimización</h4>
+        <p>Uso de la derivada para encontrar máximos y mínimos de funciones en contextos reales y técnicos.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Integral</h4>
+        <p>Proceso inverso a la derivada; acumula cantidades infinitesimales para calcular áreas, distancias y volúmenes.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Modelación Matemática</h4>
+        <p>Representar situaciones del mundo real mediante funciones y ecuaciones para analizarlas y predecir su comportamiento.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🎯</span>Objetivos de Aprendizaje</h2>
+    <ul class="objetivos-list">
+      <li>Reconocer y clasificar funciones reales, determinar su dominio y rango, y representarlas gráfica y algebraicamente.</li>
+      <li>Modelar situaciones cotidianas e ingenieriles utilizando funciones lineales, cuadráticas, exponenciales y logarítmicas.</li>
+      <li>Calcular límites de funciones usando propiedades algebraicas y analizar la continuidad de una función.</li>
+      <li>Obtener la derivada de una función usando la definición y las reglas de derivación, interpretando su significado geométrico.</li>
+      <li>Resolver problemas de optimización (máximos, mínimos, tasas de cambio) aplicando el cálculo diferencial.</li>
+      <li>Calcular integrales definidas e indefinidas y aplicar el Teorema Fundamental del Cálculo para calcular áreas y acumulaciones.</li>
+    </ul>
+  </div>
+
+  <!-- APLICACIONES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🌍</span>Aplicaciones en la Vida Real</h2>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">🏗️</div>
+        <h4>Ingeniería Civil</h4>
+        <p>Cálculo de cargas, pendientes y diseño estructural de puentes y edificios</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">📊</div>
+        <h4>Economía</h4>
+        <p>Funciones de costo, ingreso y utilidad; puntos de equilibrio y optimización</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🔭</div>
+        <h4>Astronomía</h4>
+        <p>Modelos de trayectorias, velocidades y posiciones de cuerpos celestes</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">💊</div>
+        <h4>Farmacología</h4>
+        <p>Modelos de absorción y eliminación de fármacos en el organismo</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🌊</div>
+        <h4>Física de Fluidos</h4>
+        <p>Cálculo de caudales, presiones y velocidades en sistemas hidráulicos</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🤖</div>
+        <h4>Inteligencia Artificial</h4>
+        <p>Algoritmos de gradiente descendente para entrenamiento de modelos de ML</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABILIDADES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">💡</span>Habilidades que Desarrollarás</h2>
+    <div class="habilidades-wrap">
+      <span class="hab-tag">Pensamiento analítico</span>
+      <span class="hab-tag">Modelación con funciones</span>
+      <span class="hab-tag">Cálculo diferencial</span>
+      <span class="hab-tag">Cálculo integral</span>
+      <span class="hab-tag">Interpretación geométrica</span>
+      <span class="hab-tag">Resolución de problemas</span>
+      <span class="hab-tag">Razonamiento abstracto</span>
+      <span class="hab-tag">Aplicación matemática al contexto real</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  &copy; 2026 — Propedéutico Físico-Matemático · COBAO Plantel 61 · San Bartolo
+</footer>
+
+</body>
+</html>

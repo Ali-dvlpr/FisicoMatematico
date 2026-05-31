@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Análisis de fenómenos físicos — Propedéutico COBAO 61</title>
+  <style>
+    :root { --primary: #BF0B2C; --dark: #8C031C; --light: #F2F2F2; --gray: #808081; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: #000; margin: 0; padding: 0; line-height: 1.6; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+      color: #fff;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .header-img {
+      width: 110px; height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .header-text h1 { margin: 0 0 4px; font-size: 1.8rem; }
+    .header-text p  { margin: 0; opacity: 0.88; font-size: 0.95rem; }
+    .header-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    @media(max-width:600px){
+      .header-inner { flex-direction: column; text-align: center; }
+      .header-text h1 { font-size: 1.4rem; }
+    }
+
+    /* ── NAV DE REGRESO ── */
+    .breadcrumb {
+      background: var(--dark);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.88rem;
+    }
+    .breadcrumb a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,0.5); margin: 0 6px; }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 1.5rem auto 2rem; padding: 0 1rem; }
+
+    /* ── TARJETA GENERAL ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    .card-title .ico {
+      background: var(--light);
+      color: var(--primary);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── DESCRIPCIÓN ── */
+    .desc-text { color: #222; text-align: justify; margin: 0; font-size: 0.97rem; }
+
+    /* ── GRID DE TEMAS ── */
+    .temas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 0.5rem;
+    }
+    .tema-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+    }
+    .tema-item:nth-child(even) { border-left-color: var(--dark); }
+    .tema-item h4 { margin: 0 0 4px; font-size: 0.92rem; color: var(--dark); }
+    .tema-item p  { margin: 0; font-size: 0.82rem; color: #444; }
+
+    /* ── OBJETIVOS ── */
+    .objetivos-list { list-style: none; margin: 0; padding: 0; }
+    .objetivos-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 0.93rem;
+    }
+    .objetivos-list li:last-child { border-bottom: none; }
+    .objetivos-list li::before {
+      content: "✓";
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── APLICACIONES ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+    .app-card {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .app-card .app-icon { font-size: 2rem; }
+    .app-card h4 { margin: 6px 0 2px; font-size: 0.88rem; color: var(--dark); }
+    .app-card p  { margin: 0; font-size: 0.78rem; color: var(--gray); }
+
+    /* ── HABILIDADES ── */
+    .habilidades-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
+    .hab-tag {
+      background: var(--light);
+      border: 1px solid rgba(140,3,28,0.25);
+      color: var(--dark);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    /* ── EVALUACIÓN ── */
+    .eval-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 0.5rem; }
+    .eval-item {
+      flex: 1;
+      min-width: 130px;
+      background: var(--light);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      text-align: center;
+      border-top: 3px solid var(--primary);
+    }
+    .eval-item:nth-child(even) { border-top-color: var(--dark); }
+    .eval-item .pct { font-size: 1.6rem; font-weight: 800; color: var(--primary); line-height: 1; }
+    .eval-item p    { margin: 4px 0 0; font-size: 0.8rem; color: var(--gray); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, var(--dark) 0%, #3a0010 100%);
+      color: #fff;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-size: 0.83rem;
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <img class="header-img" src="img3.jpeg" alt="Análisis de fenómenos físicos">
+    <div class="header-text">
+      <h1>Análisis de Fenómenos Físicos</h1>
+      <p>Propedéutico Físico-Matemático — COBAO Plantel 61</p>
+    </div>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb">
+  <a href="index 2.html">← Inicio</a>
+  <span>/</span>
+  <span style="color:rgba(255,255,255,0.75)">Análisis de Fenómenos Físicos</span>
+</div>
+
+<div class="page">
+
+  <!-- DESCRIPCIÓN -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">⚛️</span>¿De qué trata esta materia?</h2>
+    <p class="desc-text">
+      El <strong>Análisis de Fenómenos Físicos</strong> estudia los cambios en la materia que alteran su forma, tamaño o estado
+      <em>sin modificar su composición química</em>. A través del método científico y herramientas matemáticas, aprenderás a
+      describir, medir y predecir el comportamiento de la energía, el movimiento y las fuerzas en el mundo que te rodea.
+      Esta materia es la base para comprender la ingeniería, la física aplicada y cualquier ciencia experimental.
+    </p>
+  </div>
+
+  <!-- TEMAS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📚</span>Temas del Programa</h2>
+    <div class="temas-grid">
+      <div class="tema-item">
+        <h4>1. Mecánica y Movimiento</h4>
+        <p>Cinemática, dinámica newtoniana, leyes de Newton y trabajo mecánico.</p>
+      </div>
+      <div class="tema-item">
+        <h4>2. Dinámica de Fluidos</h4>
+        <p>Presión, densidad, principio de Arquímedes y flujo de líquidos y gases.</p>
+      </div>
+      <div class="tema-item">
+        <h4>3. Termodinámica</h4>
+        <p>Temperatura, calor, dilatación térmica, leyes de la termodinámica.</p>
+      </div>
+      <div class="tema-item">
+        <h4>4. Ondas y Sonido</h4>
+        <p>Propagación de ondas, frecuencia, amplitud, reflexión y refracción del sonido.</p>
+      </div>
+      <div class="tema-item">
+        <h4>5. Óptica</h4>
+        <p>Luz visible, reflexión, refracción, lentes y descomposición del espectro luminoso.</p>
+      </div>
+      <div class="tema-item">
+        <h4>6. Electricidad y Magnetismo</h4>
+        <p>Carga eléctrica, campos eléctricos, corriente, circuitos básicos y magnetismo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🎯</span>Objetivos de Aprendizaje</h2>
+    <ul class="objetivos-list">
+      <li>Aplicar el método científico para observar, medir y explicar fenómenos físicos del entorno.</li>
+      <li>Resolver problemas de mecánica clásica usando las leyes de Newton y principios energéticos.</li>
+      <li>Analizar el comportamiento de fluidos en reposo y en movimiento mediante fórmulas de presión y densidad.</li>
+      <li>Explicar los principios termodinámicos y calcular cambios de temperatura y dilatación en materiales.</li>
+      <li>Describir las propiedades de ondas mecánicas y electromagnéticas, incluyendo luz y sonido.</li>
+      <li>Interpretar circuitos eléctricos simples y comprender el papel del magnetismo en la vida cotidiana.</li>
+    </ul>
+  </div>
+
+  <!-- APLICACIONES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🌍</span>Aplicaciones en la Vida Real</h2>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">🌊</div>
+        <h4>Hidráulica</h4>
+        <p>Diseño de presas, tuberías y sistemas de riego</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🏎️</div>
+        <h4>Aerodinámica</h4>
+        <p>Autos, aviones y cohetes espaciales</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🔊</div>
+        <h4>Acústica</h4>
+        <p>Diseño de salas de concierto y audífonos</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🔭</div>
+        <h4>Óptica</h4>
+        <p>Telescopios, microscopios y fibra óptica</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">⚙️</div>
+        <h4>Ingeniería Mecánica</h4>
+        <p>Motores, puentes y estructuras resistentes</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🔋</div>
+        <h4>Energía Eléctrica</h4>
+        <p>Generadores, transformadores y redes eléctricas</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABILIDADES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">💡</span>Habilidades que Desarrollarás</h2>
+    <div class="habilidades-wrap">
+      <span class="hab-tag">Pensamiento analítico</span>
+      <span class="hab-tag">Resolución de problemas</span>
+      <span class="hab-tag">Interpretación de gráficas</span>
+      <span class="hab-tag">Manejo de unidades SI</span>
+      <span class="hab-tag">Razonamiento lógico-matemático</span>
+      <span class="hab-tag">Trabajo experimental</span>
+      <span class="hab-tag">Modelación física</span>
+      <span class="hab-tag">Redacción de reportes científicos</span>
+    </div>
+  </div>
+
+
+</div><!-- /page -->
+
+<footer>
+  &copy; 2026 — Propedéutico Físico-Matemático · COBAO Plantel 61 · San Bartolo
+</footer>
+
+</body>
+</html>

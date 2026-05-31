@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Taller de Pensamiento Variacional — Propedéutico COBAO 61</title>
+  <style>
+    :root { --primary: #BF0B2C; --dark: #8C031C; --light: #F2F2F2; --gray: #808081; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: #000; margin: 0; padding: 0; line-height: 1.6; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .header-img {
+      width: 110px; height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .header-text h1 { margin: 0 0 4px; font-size: 1.8rem; }
+    .header-text p  { margin: 0; opacity: 0.88; font-size: 0.95rem; }
+    .header-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    @media(max-width:600px){
+      .header-inner { flex-direction: column; text-align: center; }
+      .header-text h1 { font-size: 1.35rem; }
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: var(--dark);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.88rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,0.5); margin: 0 6px; }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 1.5rem auto 2rem; padding: 0 1rem; }
+
+    /* ── TARJETA ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    .card-title .ico {
+      background: var(--light);
+      color: var(--primary);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .desc-text { color: #222; text-align: justify; margin: 0; font-size: 0.97rem; }
+
+    /* ── MÓDULOS (TPV I y II) ── */
+    .modulos-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 0.5rem;
+    }
+    @media(max-width:580px){ .modulos-row { grid-template-columns: 1fr; } }
+    .modulo-box {
+      border-radius: 10px;
+      padding: 1.2rem 1.3rem;
+      border-top: 4px solid var(--primary);
+      background: var(--light);
+    }
+    .modulo-box:nth-child(2) { border-top-color: var(--dark); }
+    .modulo-box h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modulo-box ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.87rem;
+      color: #333;
+    }
+    .modulo-box ul li { margin-bottom: 5px; }
+
+    /* ── TEMAS GRID ── */
+    .temas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 0.5rem;
+    }
+    .tema-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+    }
+    .tema-item:nth-child(even) { border-left-color: var(--dark); }
+    .tema-item h4 { margin: 0 0 4px; font-size: 0.92rem; color: var(--dark); }
+    .tema-item p  { margin: 0; font-size: 0.82rem; color: #444; }
+
+    /* ── OBJETIVOS ── */
+    .objetivos-list { list-style: none; margin: 0; padding: 0; }
+    .objetivos-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 0.93rem;
+    }
+    .objetivos-list li:last-child { border-bottom: none; }
+    .objetivos-list li::before {
+      content: "✓";
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── APLICACIONES ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+    .app-card { background: var(--light); border-radius: 10px; padding: 1rem; text-align: center; }
+    .app-card .app-icon { font-size: 2rem; }
+    .app-card h4 { margin: 6px 0 2px; font-size: 0.88rem; color: var(--dark); }
+    .app-card p  { margin: 0; font-size: 0.78rem; color: var(--gray); }
+
+    /* ── HABILIDADES ── */
+    .habilidades-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
+    .hab-tag {
+      background: var(--light);
+      border: 1px solid rgba(140,3,28,0.25);
+      color: var(--dark);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, var(--dark) 0%, #3a0010 100%);
+      color: #fff;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-size: 0.83rem;
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <img class="header-img" src="img5.jpeg" alt="Taller de Pensamiento Variacional">
+    <div class="header-text">
+      <h1>Taller de Pensamiento Variacional</h1>
+      <p>Propedéutico Físico-Matemático — COBAO Plantel 61</p>
+    </div>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb">
+  <a href="index 2.html">← Inicio</a>
+  <span>/</span>
+  <span style="color:rgba(255,255,255,0.75)">Pensamiento Variacional</span>
+</div>
+
+<div class="page">
+
+  <!-- DESCRIPCIÓN -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📈</span>¿De qué trata esta materia?</h2>
+    <p class="desc-text">
+      El <strong>Taller de Pensamiento Variacional</strong> es una materia enfocada en la
+      <em>modelación matemática de fenómenos de cambio y variación</em> del mundo real. A través del
+      cálculo diferencial e integral, aprenderás a describir cómo cambian las cantidades, predecir
+      comportamientos futuros y optimizar situaciones. Es una de las materias más importantes del
+      propedéutico porque forma la base matemática de prácticamente todas las carreras de ingeniería y ciencias exactas.
+    </p>
+  </div>
+
+  <!-- MÓDULOS TPV I y II -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📦</span>Módulos de la Materia</h2>
+    <div class="modulos-row">
+      <div class="modulo-box">
+        <h3>📘 TPV I — Cálculo Diferencial</h3>
+        <ul>
+          <li>Álgebra de funciones y tipos de función</li>
+          <li>Límites: concepto intuitivo y formal</li>
+          <li>Continuidad y discontinuidades</li>
+          <li>Derivada como razón de cambio instantánea</li>
+          <li>Reglas de derivación (suma, producto, cadena)</li>
+          <li>Optimización: máximos y mínimos</li>
+          <li>Trazo de curvas y análisis de gráficas</li>
+        </ul>
+      </div>
+      <div class="modulo-box">
+        <h3>📗 TPV II — Cálculo Integral</h3>
+        <ul>
+          <li>Diferenciales y aproximación lineal</li>
+          <li>Integral indefinida: antiderivadas</li>
+          <li>Reglas básicas de integración</li>
+          <li>Integral definida y área bajo la curva</li>
+          <li>Teorema Fundamental del Cálculo</li>
+          <li>Cambio de variable e integración por partes</li>
+          <li>Aplicaciones: volúmenes y distancias</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMAS CLAVE -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📚</span>Conceptos Clave</h2>
+    <div class="temas-grid">
+      <div class="tema-item">
+        <h4>Funciones</h4>
+        <p>Dominio, rango, operaciones y composición. Tipos: lineal, cuadrática, exponencial, logarítmica.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Límites</h4>
+        <p>Límites laterales, al infinito, indeterminaciones y regla de L'Hôpital.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Derivada</h4>
+        <p>Definición por límite, reglas de derivación, derivada implícita y de orden superior.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Optimización</h4>
+        <p>Criterio de la primera y segunda derivada, máximos, mínimos y puntos de inflexión.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Integral Indefinida</h4>
+        <p>Antiderivada, constante de integración, tablas de integrales y métodos de sustitución.</p>
+      </div>
+      <div class="tema-item">
+        <h4>Integral Definida</h4>
+        <p>Sumas de Riemann, Teorema Fundamental del Cálculo y cálculo de áreas entre curvas.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🎯</span>Objetivos de Aprendizaje</h2>
+    <ul class="objetivos-list">
+      <li>Identificar, graficar y operar distintos tipos de funciones reales y analizar su comportamiento.</li>
+      <li>Calcular límites usando propiedades algebraicas e interpretar la continuidad de una función.</li>
+      <li>Obtener la derivada de funciones usando las reglas de derivación y aplicarla a problemas de optimización.</li>
+      <li>Trazar gráficas precisas de funciones usando derivadas para identificar máximos, mínimos e inflexiones.</li>
+      <li>Calcular integrales indefinidas y definidas aplicando los métodos de integración básicos.</li>
+      <li>Usar el Teorema Fundamental del Cálculo para calcular áreas bajo curvas y resolver problemas aplicados.</li>
+    </ul>
+  </div>
+
+  <!-- APLICACIONES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🌍</span>Aplicaciones en la Vida Real</h2>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">🚀</div>
+        <h4>Física y Movimiento</h4>
+        <p>Velocidad, aceleración y trayectorias de proyectiles</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">📉</div>
+        <h4>Economía</h4>
+        <p>Maximizar ganancias y minimizar costos de producción</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">⚙️</div>
+        <h4>Ingeniería</h4>
+        <p>Diseño de estructuras, puentes y sistemas de control</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🧬</div>
+        <h4>Biología</h4>
+        <p>Modelos de crecimiento poblacional y epidemiología</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🌡️</div>
+        <h4>Termodinámica</h4>
+        <p>Calor, trabajo y cambios de temperatura en sistemas</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">💻</div>
+        <h4>Computación</h4>
+        <p>Algoritmos de optimización y aprendizaje automático</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABILIDADES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">💡</span>Habilidades que Desarrollarás</h2>
+    <div class="habilidades-wrap">
+      <span class="hab-tag">Pensamiento abstracto</span>
+      <span class="hab-tag">Modelación matemática</span>
+      <span class="hab-tag">Análisis de funciones</span>
+      <span class="hab-tag">Optimización de problemas</span>
+      <span class="hab-tag">Interpretación geométrica</span>
+      <span class="hab-tag">Cálculo diferencial e integral</span>
+      <span class="hab-tag">Razonamiento lógico-formal</span>
+      <span class="hab-tag">Resolución de problemas aplicados</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  &copy; 2026 — Propedéutico Físico-Matemático · COBAO Plantel 61 · San Bartolo
+</footer>
+
+</body>
+</html>

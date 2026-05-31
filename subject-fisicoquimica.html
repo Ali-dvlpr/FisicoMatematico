@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Fisicoquímica — Propedéutico COBAO 61</title>
+  <style>
+    :root { --primary: #BF0B2C; --dark: #8C031C; --light: #F2F2F2; --gray: #808081; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: #000; margin: 0; padding: 0; line-height: 1.6; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .header-img {
+      width: 110px; height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .header-text h1 { margin: 0 0 4px; font-size: 1.8rem; }
+    .header-text p  { margin: 0; opacity: 0.88; font-size: 0.95rem; }
+    .header-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    @media(max-width:600px){
+      .header-inner { flex-direction: column; text-align: center; }
+      .header-text h1 { font-size: 1.4rem; }
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: var(--dark);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.88rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,0.5); margin: 0 6px; }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 1.5rem auto 2rem; padding: 0 1rem; }
+
+    /* ── TARJETA ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    .card-title .ico {
+      background: var(--light);
+      color: var(--primary);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── DESCRIPCIÓN ── */
+    .desc-text { color: #222; text-align: justify; margin: 0; font-size: 0.97rem; }
+
+    /* ── TEMAS ── */
+    .temas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 0.5rem;
+    }
+    .tema-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+    }
+    .tema-item:nth-child(even) { border-left-color: var(--dark); }
+    .tema-item h4 { margin: 0 0 4px; font-size: 0.92rem; color: var(--dark); }
+    .tema-item p  { margin: 0; font-size: 0.82rem; color: #444; }
+
+    /* ── OBJETIVOS ── */
+    .objetivos-list { list-style: none; margin: 0; padding: 0; }
+    .objetivos-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 0.93rem;
+    }
+    .objetivos-list li:last-child { border-bottom: none; }
+    .objetivos-list li::before {
+      content: "✓";
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── APLICACIONES ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+    .app-card {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .app-card .app-icon { font-size: 2rem; }
+    .app-card h4 { margin: 6px 0 2px; font-size: 0.88rem; color: var(--dark); }
+    .app-card p  { margin: 0; font-size: 0.78rem; color: var(--gray); }
+
+    /* ── HABILIDADES ── */
+    .habilidades-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
+    .hab-tag {
+      background: var(--light);
+      border: 1px solid rgba(140,3,28,0.25);
+      color: var(--dark);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, var(--dark) 0%, #3a0010 100%);
+      color: #fff;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-size: 0.83rem;
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <img class="header-img" src="img2.jpeg" alt="Fisicoquímica">
+    <div class="header-text">
+      <h1>Fisicoquímica</h1>
+      <p>Propedéutico Físico-Matemático — COBAO Plantel 61</p>
+    </div>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb">
+  <a href="index 2.html">← Inicio</a>
+  <span>/</span>
+  <span style="color:rgba(255,255,255,0.75)">Fisicoquímica</span>
+</div>
+
+<div class="page">
+
+  <!-- DESCRIPCIÓN -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🧪</span>¿De qué trata esta materia?</h2>
+    <p class="desc-text">
+      La <strong>Fisicoquímica</strong> es la rama que une los principios de la física y la química para explicar
+      <em>cómo y por qué ocurren las reacciones químicas</em>. Estudia la relación entre la energía, la estructura
+      atómica y el comportamiento de la materia a nivel molecular. Es fundamental para entender desde el
+      funcionamiento de una batería hasta cómo se forman los medicamentos o los materiales de alta tecnología.
+    </p>
+  </div>
+
+  <!-- TEMAS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📚</span>Temas del Programa</h2>
+    <div class="temas-grid">
+      <div class="tema-item">
+        <h4>1. Termodinámica Química</h4>
+        <p>Leyes de la termodinámica, entalpía, entropía y energía libre de Gibbs en reacciones.</p>
+      </div>
+      <div class="tema-item">
+        <h4>2. Cinética Química</h4>
+        <p>Velocidad de reacción, factores que la afectan, mecanismos y catálisis.</p>
+      </div>
+      <div class="tema-item">
+        <h4>3. Equilibrio Químico</h4>
+        <p>Constante de equilibrio, principio de Le Chatelier y desplazamiento del equilibrio.</p>
+      </div>
+      <div class="tema-item">
+        <h4>4. Electroquímica</h4>
+        <p>Celdas galvánicas, electrólisis, potencial de reducción y aplicaciones industriales.</p>
+      </div>
+      <div class="tema-item">
+        <h4>5. Mecánica Cuántica</h4>
+        <p>Modelo atómico cuántico, orbitales, números cuánticos y estructura electrónica.</p>
+      </div>
+      <div class="tema-item">
+        <h4>6. Enlace Químico</h4>
+        <p>Tipos de enlace (iónico, covalente, metálico) y su relación con propiedades físicas.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🎯</span>Objetivos de Aprendizaje</h2>
+    <ul class="objetivos-list">
+      <li>Aplicar las leyes de la termodinámica para predecir si una reacción química es espontánea.</li>
+      <li>Calcular la velocidad de reacción e identificar los factores que la modifican (temperatura, concentración, catalizador).</li>
+      <li>Analizar sistemas en equilibrio y predecir su comportamiento ante cambios externos usando Le Chatelier.</li>
+      <li>Comprender el funcionamiento de celdas electroquímicas y calcular potenciales de celda.</li>
+      <li>Describir la estructura electrónica de los átomos usando los principios de la mecánica cuántica.</li>
+      <li>Relacionar el tipo de enlace químico con las propiedades físicas y químicas de las sustancias.</li>
+    </ul>
+  </div>
+
+  <!-- APLICACIONES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🌍</span>Aplicaciones en la Vida Real</h2>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">🔋</div>
+        <h4>Baterías y pilas</h4>
+        <p>Desde pilas AA hasta baterías de litio para autos eléctricos</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">💊</div>
+        <h4>Farmacéutica</h4>
+        <p>Diseño y síntesis de medicamentos y vacunas</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🏭</div>
+        <h4>Industria química</h4>
+        <p>Producción de fertilizantes, plásticos y combustibles</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🌱</div>
+        <h4>Energías renovables</h4>
+        <p>Celdas de combustible y paneles solares fotovoltaicos</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🧬</div>
+        <h4>Bioquímica</h4>
+        <p>Reacciones enzimáticas, metabolismo y ADN</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🛠️</div>
+        <h4>Materiales avanzados</h4>
+        <p>Aleaciones, polímeros, cerámicos y nanomateriales</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABILIDADES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">💡</span>Habilidades que Desarrollarás</h2>
+    <div class="habilidades-wrap">
+      <span class="hab-tag">Pensamiento analítico</span>
+      <span class="hab-tag">Razonamiento cuantitativo</span>
+      <span class="hab-tag">Interpretación molecular</span>
+      <span class="hab-tag">Cálculo estequiométrico</span>
+      <span class="hab-tag">Trabajo en laboratorio</span>
+      <span class="hab-tag">Análisis de datos experimentales</span>
+      <span class="hab-tag">Modelado atómico</span>
+      <span class="hab-tag">Resolución de problemas energéticos</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  &copy; 2026 — Propedéutico Físico-Matemático · COBAO Plantel 61 · San Bartolo
+</footer>
+
+</body>
+</html>

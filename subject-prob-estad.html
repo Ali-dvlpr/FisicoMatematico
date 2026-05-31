@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Taller de Probabilidad y Estadística — Propedéutico COBAO 61</title>
+  <style>
+    :root { --primary: #BF0B2C; --dark: #8C031C; --light: #F2F2F2; --gray: #808081; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: #000; margin: 0; padding: 0; line-height: 1.6; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .header-img {
+      width: 110px; height: 110px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .header-text h1 { margin: 0 0 4px; font-size: 1.8rem; }
+    .header-text p  { margin: 0; opacity: 0.88; font-size: 0.95rem; }
+    .header-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    @media(max-width:600px){
+      .header-inner { flex-direction: column; text-align: center; }
+      .header-text h1 { font-size: 1.4rem; }
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: var(--dark);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.88rem;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { color: #fff; }
+    .breadcrumb span { color: rgba(255,255,255,0.5); margin: 0 6px; }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 960px; margin: 1.5rem auto 2rem; padding: 0 1rem; }
+
+    /* ── TARJETA ── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    .card-title .ico {
+      background: var(--light);
+      color: var(--primary);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .desc-text { color: #222; text-align: justify; margin: 0; font-size: 0.97rem; }
+
+    /* ── TEMAS ── */
+    .temas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 0.5rem;
+    }
+    .tema-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      border-left: 4px solid var(--primary);
+    }
+    .tema-item:nth-child(even) { border-left-color: var(--dark); }
+    .tema-item h4 { margin: 0 0 4px; font-size: 0.92rem; color: var(--dark); }
+    .tema-item p  { margin: 0; font-size: 0.82rem; color: #444; }
+
+    /* ── OBJETIVOS ── */
+    .objetivos-list { list-style: none; margin: 0; padding: 0; }
+    .objetivos-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 0.93rem;
+    }
+    .objetivos-list li:last-child { border-bottom: none; }
+    .objetivos-list li::before {
+      content: "✓";
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── DIFERENCIA PROB VS ESTAD ── */
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 0.5rem;
+    }
+    @media(max-width:550px){ .compare-row { grid-template-columns: 1fr; } }
+    .compare-box {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+    .compare-box h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .compare-box ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.87rem;
+      color: #333;
+    }
+    .compare-box ul li { margin-bottom: 4px; }
+
+    /* ── APLICACIONES ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+    .app-card {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .app-card .app-icon { font-size: 2rem; }
+    .app-card h4 { margin: 6px 0 2px; font-size: 0.88rem; color: var(--dark); }
+    .app-card p  { margin: 0; font-size: 0.78rem; color: var(--gray); }
+
+    /* ── HABILIDADES ── */
+    .habilidades-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
+    .hab-tag {
+      background: var(--light);
+      border: 1px solid rgba(140,3,28,0.25);
+      color: var(--dark);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, var(--dark) 0%, #3a0010 100%);
+      color: #fff;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-size: 0.83rem;
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <img class="header-img" src="img4.jpeg" alt="Probabilidad y Estadística">
+    <div class="header-text">
+      <h1>Taller de Probabilidad y Estadística</h1>
+      <p>Propedéutico Físico-Matemático — COBAO Plantel 61</p>
+    </div>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb">
+  <a href="index 2.html">← Inicio</a>
+  <span>/</span>
+  <span style="color:rgba(255,255,255,0.75)">Probabilidad y Estadística</span>
+</div>
+
+<div class="page">
+
+  <!-- DESCRIPCIÓN -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🎲</span>¿De qué trata esta materia?</h2>
+    <p class="desc-text">
+      El <strong>Taller de Probabilidad y Estadística</strong> es una materia práctica que te enseña a
+      <em>recolectar, organizar, analizar e interpretar datos</em> para tomar decisiones informadas.
+      Combina el estudio del azar (probabilidad) con el manejo de información real (estadística),
+      habilidades indispensables en ciencia, ingeniería, economía, salud y cualquier campo donde
+      los datos sean la base del conocimiento.
+    </p>
+  </div>
+
+  <!-- PROB VS ESTAD -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">⚖️</span>Probabilidad vs. Estadística</h2>
+    <div class="compare-row">
+      <div class="compare-box">
+        <h4>🎯 Probabilidad</h4>
+        <ul>
+          <li>Estudia la posibilidad de que ocurra un evento</li>
+          <li>Parte de reglas teóricas hacia predicciones</li>
+          <li>Ejemplos: lanzar un dado, predecir lluvia</li>
+          <li>Usa espacios muestrales y eventos</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>📊 Estadística</h4>
+        <ul>
+          <li>Organiza y resume conjuntos de datos reales</li>
+          <li>Parte de datos observados hacia conclusiones</li>
+          <li>Ejemplos: analizar encuestas, promedios</li>
+          <li>Usa tablas, gráficas y medidas numéricas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMAS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">📚</span>Temas del Programa</h2>
+    <div class="temas-grid">
+      <div class="tema-item">
+        <h4>1. Estadística Descriptiva</h4>
+        <p>Tablas de frecuencia, histogramas, polígonos de frecuencia y ojivas.</p>
+      </div>
+      <div class="tema-item">
+        <h4>2. Medidas de Tendencia Central</h4>
+        <p>Media aritmética, mediana, moda y sus aplicaciones en conjuntos de datos.</p>
+      </div>
+      <div class="tema-item">
+        <h4>3. Medidas de Dispersión</h4>
+        <p>Rango, varianza, desviación estándar e interpretación de la variabilidad.</p>
+      </div>
+      <div class="tema-item">
+        <h4>4. Probabilidad Clásica</h4>
+        <p>Espacio muestral, eventos, regla de la adición y multiplicación.</p>
+      </div>
+      <div class="tema-item">
+        <h4>5. Probabilidad Condicional</h4>
+        <p>Eventos dependientes e independientes, teorema de Bayes.</p>
+      </div>
+      <div class="tema-item">
+        <h4>6. Distribuciones de Probabilidad</h4>
+        <p>Distribución binomial, normal (campana de Gauss) y sus propiedades.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🎯</span>Objetivos de Aprendizaje</h2>
+    <ul class="objetivos-list">
+      <li>Organizar datos en tablas de frecuencia y representarlos con gráficos estadísticos correctos.</li>
+      <li>Calcular e interpretar medidas de tendencia central y dispersión para describir un conjunto de datos.</li>
+      <li>Distinguir entre población y muestra, y aplicar técnicas de muestreo probabilístico.</li>
+      <li>Calcular probabilidades clásicas y condicionales usando reglas y diagramas de árbol.</li>
+      <li>Aplicar el teorema de Bayes para actualizar probabilidades con nueva información.</li>
+      <li>Usar la distribución normal para estimar probabilidades en fenómenos del mundo real.</li>
+    </ul>
+  </div>
+
+  <!-- APLICACIONES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">🌍</span>Aplicaciones en la Vida Real</h2>
+    <div class="apps-grid">
+      <div class="app-card">
+        <div class="app-icon">🏥</div>
+        <h4>Medicina</h4>
+        <p>Diagnóstico clínico, ensayos clínicos y epidemiología</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">📈</div>
+        <h4>Finanzas</h4>
+        <p>Análisis de riesgo, mercados bursátiles y seguros</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🤖</div>
+        <h4>Inteligencia Artificial</h4>
+        <p>Machine learning, redes neuronales y predicciones</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🗳️</div>
+        <h4>Ciencias Sociales</h4>
+        <p>Encuestas, censos y análisis de opinión pública</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🏭</div>
+        <h4>Control de Calidad</h4>
+        <p>Muestreo industrial y control estadístico de procesos</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🌦️</div>
+        <h4>Meteorología</h4>
+        <p>Pronóstico del tiempo y modelos climáticos</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABILIDADES -->
+  <div class="card">
+    <h2 class="card-title"><span class="ico">💡</span>Habilidades que Desarrollarás</h2>
+    <div class="habilidades-wrap">
+      <span class="hab-tag">Análisis de datos</span>
+      <span class="hab-tag">Pensamiento crítico</span>
+      <span class="hab-tag">Interpretación gráfica</span>
+      <span class="hab-tag">Toma de decisiones</span>
+      <span class="hab-tag">Razonamiento probabilístico</span>
+      <span class="hab-tag">Manejo de Excel / hojas de cálculo</span>
+      <span class="hab-tag">Lectura de tablas estadísticas</span>
+      <span class="hab-tag">Redacción de reportes de datos</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  &copy; 2026 — Propedéutico Físico-Matemático · COBAO Plantel 61 · San Bartolo
+</footer>
+
+</body>
+</html>

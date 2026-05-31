@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Físico-Matemático - COBAO 61</title>
+    <style>
+        :root { --primary: #BF0B2C; --dark: #8C031C; --light: #F2F2F2; --gray: #808081; --black: #000; --white: #fff; }
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: var(--light); color: var(--black); }
+
+        /* ── HEADER ── */
+        header { background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%); color: #fff; padding: 2rem; }
+        /* Header con logo y título */
+        .title-row { display: flex; align-items: center; gap: 16px; max-width: 1100px; margin: 0 auto; }
+        .title-logo img { height: 72px; width: auto; border-radius: 8px; display: block; box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+        .title-text h1 { margin: 0; font-size: 2rem; letter-spacing: -0.5px; }
+        .title-text p { margin: 4px 0 0 0; opacity: 0.88; }
+        @media (max-width: 700px) {
+            .title-row { flex-direction: column; text-align: center; }
+            .title-logo img { height: 56px; }
+            .title-text h1 { font-size: 1.5rem; }
+        }
+
+        /* ── UTILIDADES ── */
+        .highlight { font-weight: 700; color: var(--primary); }
+        .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+        /* ── BANNER INTRO ── */
+        .banner {
+            background: var(--white);
+            border-left: 5px solid var(--primary);
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1.5rem 2rem;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 18px rgba(140,3,28,0.08);
+        }
+        .banner h2 { color: var(--dark); margin: 0 0 0.6rem 0; font-size: 1.4rem; }
+        .banner p  { color: #222; text-align: justify; margin: 0; font-size: 1rem; }
+
+        /* ── TÍTULO DE SECCIÓN ── */
+        .section-title { text-align: center; max-width: 1000px; margin: 2.5rem auto 0.25rem auto; padding: 0 1rem; }
+        .section-title h2 {
+            display: inline-block;
+            font-size: 1.55rem;
+            color: var(--dark);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 6px;
+            margin-bottom: 0;
+        }
+        .section-title p { color: var(--gray); margin-top: 0.4rem; font-size: 0.93rem; }
+
+        /* ── ESTADÍSTICAS ── */
+        .stats-row {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 1.5rem auto 2rem auto;
+            padding: 0 1rem;
+        }
+        .stat-box {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.2rem 1.8rem;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            flex: 1;
+            min-width: 120px;
+            border-top: 3px solid var(--primary);
+        }
+        .stat-box .num  { font-size: 2.2rem; font-weight: 800; color: var(--primary); line-height: 1; }
+        .stat-box .lbl  { font-size: 0.8rem; color: var(--gray); margin-top: 4px; }
+
+        /* ── TARJETAS CON IMAGEN ── */
+        .subjects-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+            max-width: 1000px;
+            margin: 1rem auto 2rem auto;
+            padding: 0 1rem;
+        }
+        .card-subject {
+            display: block;
+            background: var(--white);
+            border: 2px solid rgba(0,0,0,0.08);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--black);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+        }
+        .card-subject:hover { transform: translateY(-7px); box-shadow: 0 16px 36px rgba(140,3,28,0.16); }
+        .card-subject .card-media { position: relative; }
+        .card-subject img { display: block; width: 100%; height: 220px; object-fit: contain; object-position: center top; background: #f0f0f0; }
+        .card-caption {
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            padding: 6px 10px;
+            background: rgba(140,3,28,0.82);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-align: center;
+            pointer-events: none;
+        }
+        .card-label { padding: 9px 12px; font-size: 0.8rem; color: var(--primary); text-align: center; font-weight: 600; }
+        .card-analisis    { border-color: var(--dark); }
+        .card-fisicoquimica { border-color: var(--primary); }
+        .card-tpv         { border-color: var(--dark); }
+        .card-prob        { border-color: var(--primary); }
+        .card-temas       { border-color: var(--gray); }
+
+        /* ── DETALLES DE MATERIAS ── */
+        .materias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 1rem auto 2.5rem auto;
+            padding: 0 1rem;
+        }
+        .materia-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.3rem 1.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--primary);
+            transition: box-shadow 0.2s;
+        }
+        .materia-card:nth-child(odd)  { border-top-color: var(--dark); }
+        .materia-card:hover { box-shadow: 0 10px 28px rgba(140,3,28,0.13); }
+        .materia-card h3 {
+            margin: 0 0 0.6rem 0;
+            color: var(--dark);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .materia-card h3 .icon {
+            background: var(--light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .materia-card p  { font-size: 0.9rem; color: #333; margin: 0 0 0.7rem 0; }
+        .materia-card ul { margin: 0; padding-left: 1.1rem; font-size: 0.87rem; color: #444; }
+        .materia-card ul li { margin-bottom: 3px; }
+        .materia-tag {
+            display: inline-block;
+            margin-top: 0.8rem;
+            padding: 3px 11px;
+            background: var(--light);
+            color: var(--dark);
+            border-radius: 20px;
+            font-size: 0.77rem;
+            font-weight: 700;
+            border: 1px solid rgba(140,3,28,0.2);
+        }
+
+        /* ── CARRERAS ── */
+        .careers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+            max-width: 1000px;
+            margin: 1rem auto 2.5rem auto;
+            padding: 0 1rem;
+        }
+        .career-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border-left: 3px solid var(--primary);
+        }
+        .career-card:nth-child(even) { border-left-color: var(--dark); }
+        .career-icon { font-size: 1.6rem; line-height: 1; margin-top: 2px; }
+        .career-card h4 { margin: 0 0 2px 0; font-size: 0.95rem; color: var(--black); }
+        .career-card p  { margin: 0; font-size: 0.82rem; color: var(--gray); }
+
+        /* ── UNIVERSIDADES ── */
+        .uni-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 1rem auto 2.5rem auto;
+            padding: 0 1rem;
+        }
+        .uni-badge {
+            display: inline-block;
+            border: 2px solid var(--dark);
+            color: var(--dark);
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(140,3,28,0.1);
+            transition: background 0.18s, color 0.18s, transform 0.15s;
+            text-decoration: none;
+            background: var(--white);
+            cursor: pointer;
+        }
+        .uni-badge:hover { background: var(--dark); color: var(--white); transform: translateY(-3px); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #3a0010 100%);
+            color: #fff;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .footer-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .footer-names { font-size: 0.85rem; opacity: 0.85; line-height: 2; }
+        .footer-copy  { margin-top: 0.8rem; font-size: 0.78rem; opacity: 0.55; }
+
+        @media (max-width: 600px) {
+            .materias-grid, .careers-grid { grid-template-columns: 1fr; }
+            .stats-row { gap: 10px; }
+            .banner { margin: 1rem; border-radius: 0 8px 8px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+    <div class="title-row">
+        <div class="title-logo">
+            <img src="logo.jpeg" alt="Logo Área Físico-Matemático">
+        </div>
+        <div class="title-text">
+            <h1>Área Físico-Matemático</h1>
+            <p>COBAO Plantel 61 — San Bartolo</p>
+        </div>
+    </div>
+</header>
+
+<!-- ══ INTRO ══ -->
+<div class="banner">
+    <h2>Bienvenido al Propedéutico</h2>
+    <p>El área de <span class="highlight">Físico-Matemático</span> forma la base del pensamiento científico y técnico.
+    Aquí desarrollarás la capacidad de resolver problemas complejos, analizar fenómenos del mundo real y construir modelos
+    matemáticos que aplican en ingeniería, tecnología y ciencias exactas. En el <span class="highlight">COBAO 61</span>
+    te preparamos con rigor académico y mentalidad analítica para que enfrentes los retos universitarios con confianza.</p>
+</div>
+
+<!-- ══ ESTADÍSTICAS ══ -->
+<div class="stats-row">
+    <div class="stat-box"><div class="num">5</div><div class="lbl">Materias</div></div>
+    <div class="stat-box"><div class="num">8</div><div class="lbl">Carreras afines</div></div>
+    <div class="stat-box"><div class="num">5</div><div class="lbl">Universidades</div></div>
+    <div class="stat-box"><div class="num">2</div><div class="lbl">Semestres</div></div>
+</div>
+
+<!-- ══ TARJETAS CON IMAGEN ══ -->
+<div class="section-title">
+    <h2>Materias del Propedéutico</h2>
+    <p>Haz clic en cada materia para ver su contenido detallado</p>
+</div>
+<div class="subjects-cards">
+    <a class="card-subject card-analisis" href="subject-analisis.html">
+        <div class="card-media">
+            <img src="img3.jpeg" alt="Análisis de fenómenos físicos">
+            <div class="card-caption">Análisis Físico</div>
+        </div>
+        <div class="card-label">Ver materia →</div>
+        <span class="sr-only">Análisis de fenómenos físicos</span>
+    </a>
+    <a class="card-subject card-fisicoquimica" href="subject-fisicoquimica.html">
+        <div class="card-media">
+            <img src="img2.jpeg" alt="Fisicoquímica">
+            <div class="card-caption">Fisicoquímica</div>
+        </div>
+        <div class="card-label">Ver materia →</div>
+        <span class="sr-only">Fisicoquímica</span>
+    </a>
+    <a class="card-subject card-tpv" href="subject-tpv.html">
+        <div class="card-media">
+            <img src="img5.jpeg" alt="Taller de pensamiento variacional">
+            <div class="card-caption">Pens. Variacional</div>
+        </div>
+        <div class="card-label">Ver materia →</div>
+        <span class="sr-only">Taller de pensamiento variacional</span>
+    </a>
+    <a class="card-subject card-prob" href="subject-prob-estad.html">
+        <div class="card-media">
+            <img src="img4.jpeg" alt="Probabilidad y estadística">
+            <div class="card-caption">Prob. y Estadística</div>
+        </div>
+        <div class="card-label">Ver materia →</div>
+        <span class="sr-only">Taller de probabilidad y estadística</span>
+    </a>
+    <a class="card-subject card-temas" href="subject-temas-math.html">
+        <div class="card-media">
+            <img src="img6.jpeg" alt="Temas selectos de matemáticas">
+            <div class="card-caption">Temas Selectos</div>
+        </div>
+        <div class="card-label">Ver materia →</div>
+        <span class="sr-only">Temas selectos de matemáticas</span>
+    </a>
+</div>
+
+<!-- ══ CARRERAS ══ -->
+<div class="section-title">
+    <h2>Carreras a las que puedes acceder</h2>
+    <p>El perfil Físico-Matemático abre las puertas a estas áreas profesionales</p>
+</div>
+<div class="careers-grid">
+    <div class="career-card">
+        <div class="career-icon">🏗️</div>
+        <div><h4>Ingeniería Civil</h4><p>Diseño y construcción de infraestructura</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">🤖</div>
+        <div><h4>Mecatrónica</h4><p>Robótica y sistemas automatizados</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">📊</div>
+        <div><h4>Ciencia de Datos</h4><p>Análisis y modelado de datos masivos</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">∑</div>
+        <div><h4>Matemáticas Aplicadas</h4><p>Modelado matemático y simulación</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">💻</div>
+        <div><h4>Sistemas Computacionales</h4><p>Desarrollo de software y algoritmos</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">✈️</div>
+        <div><h4>Ing. Aeronáutica</h4><p>Diseño y análisis de aeronaves</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">🏛️</div>
+        <div><h4>Arquitectura</h4><p>Diseño estructural y espacial</p></div>
+    </div>
+    <div class="career-card">
+        <div class="career-icon">⚡</div>
+        <div><h4>Ing. Eléctrica / Electrónica</h4><p>Circuitos, control y energía</p></div>
+    </div>
+</div>
+
+<!-- ══ UNIVERSIDADES ══ -->
+<div class="section-title">
+    <h2>Universidades de Destino</h2>
+    <p>Instituciones de alto nivel donde los egresados pueden continuar su formación</p>
+</div>
+<div class="uni-grid">
+    <a class="uni-badge" href="https://www.uabjo.mx/">UABJO</a>
+    <a class="uni-badge" href="https://www.unistmo.edu.mx/web/">UNISTMO</a>
+    <a class="uni-badge" href="https://www.ipn.mx/">IPN</a>
+    <a class="uni-badge" href="https://www.unam.mx/">UNAM</a>
+    <a class="uni-badge" href="https://www.buap.mx/">BUAP</a>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="footer-title">Proyecto Final — Capacitación de TICs · COBAO 61</div>
+    <div class="footer-names">
+        Chavez Vega Cielo Yesenia &nbsp;·&nbsp; Cruz Loaeza Shunashy Janahy &nbsp;·&nbsp; Lopez Amaya Cristian Obed<br>
+        Lopez Lopez Gael Giovany &nbsp;·&nbsp; Ramirez Castellanos Tannia &nbsp;·&nbsp; Ramirez Ramirez Liz Zoraida
+    </div>
+    <div class="footer-copy">&copy; 2026 — Todos los derechos reservados</div>
+</footer>
+
+</body>
+</html>
